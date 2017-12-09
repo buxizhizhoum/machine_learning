@@ -7,6 +7,7 @@ copyright belong to its original author.
 import tensorflow as tf
 
 
+# todo initialize weight with random number
 class MNIST(object):
     """
     rewrite official tutorial of mnist, to make it more compact.
