@@ -80,6 +80,7 @@ def weight_variable(shape):
     return tf.Variable(initial)
 
 def bias_variable(shape):
+    # set bias to a small positive number
     initial = tf.constant(0.1, shape=shape)
     return tf.Variable(initial)
 
@@ -90,12 +91,9 @@ def conv2d(x, W):
 
 
 def max_pool_2x2(x):
+    # 池化
     return tf.nn.max_pool(x, ksize=[1, 2, 2, 1],
                           strides=[1, 2, 2, 1], padding='SAME')
-
-
-
-
 
 
 if __name__ == "__main__":
@@ -164,13 +162,5 @@ if __name__ == "__main__":
     # main()
 
     # below is the code from tensorflow official site
-    # sess = tf.InteractiveSession()
-    # x = tf.placeholder("float", [None, 784])
-    # W = tf.Variable(tf.zeros([784, 10]))
-    # b = tf.Variable(tf.zeros([10]))
-    # y_ = tf.placeholder("float", [None, 10])
-    #
-    # sess.run(tf.initialize_all_variables())
-    # y = tf.nn.softmax(tf.matmul(x, W) + b)
-    # cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
+
 
