@@ -87,6 +87,8 @@ def bias_variable(shape):
 
 def conv2d(x, W):
     # 卷积
+    # strides：一长度是4的一维向量，一维对应的是input中一维对应移动步数
+    # conv2d参数：input, filter, strides, padding
     return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
 
 
