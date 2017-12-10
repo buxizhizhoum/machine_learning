@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 rewrite official tutorial of mnist into a class to make it more compact.
-copyright belong to its original author.
 """
 import tensorflow as tf
 
