@@ -6,7 +6,8 @@ rewrite official tutorial of mnist into a class to make it more compact.
 import tensorflow as tf
 
 
-# todo initialize weight with random number
+# initialize weight with random number
+# initialize with random does not help to obtain a higher accuracy
 class MNIST(object):
     """
     rewrite official tutorial of mnist, to make it more compact.
@@ -28,6 +29,11 @@ class MNIST(object):
         self.W = tf.Variable(tf.zeros([X.train.images.shape[1],
                                        X.train.labels.shape[1]]))
         self.b = tf.Variable(tf.zeros([X.train.labels.shape[1]]))
+        # # initialize W with random number
+        # self.W = tf.Variable(tf.random_normal([X.train.images.shape[1],
+        #                                       X.train.labels.shape[1]]))
+        # # initialize b with small positive number
+        # self.b = tf.Variable(tf.zeros([X.train.labels.shape[1]]) + 0.1)
         # create the model
         self.y = tf.nn.softmax(tf.matmul(self.x, self.W) + self.b)
         self.y_ = tf.placeholder("float", [None, X.train.labels.shape[1]])
