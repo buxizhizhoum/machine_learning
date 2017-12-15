@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 exercise of mnist
+
+the model is: tf.softmax(tf.matmul(x, w) + b)
 """
 import tensorflow as tf
 
