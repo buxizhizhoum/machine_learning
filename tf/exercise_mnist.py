@@ -10,7 +10,7 @@ import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
 learning_rate = 0.001
-train_times = 30000
+train_times = 10000
 
 mnist_data_sets = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
