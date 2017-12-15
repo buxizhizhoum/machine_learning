@@ -8,7 +8,7 @@ import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
 learning_rate = 0.001
-train_times = 10000
+train_times = 30000
 
 mnist_data_sets = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
@@ -18,8 +18,20 @@ x = tf.placeholder("float", [None, 784])
 y_ = tf.placeholder("float", [None, 10])
 # the placeholder above should feed in training, with the key x and y_
 
-w = tf.Variable(tf.zeros([784, 10]))
-b = tf.Variable(tf.zeros([10]))
+# todo: choose one way to initialize from below method.
+# initialize to zero
+# w = tf.Variable(tf.zeros([784, 10]))
+# b = tf.Variable(tf.zeros([10]))
+
+# initialize to random normal
+# question: why random normal need more iter times to get same accuracy?
+# w = tf.Variable(tf.random_normal([784, 10]))
+# b = tf.Variable(tf.random_normal([10]))
+
+# initialize to random uniform
+# why this move quickly to high accuracy than random normal?
+w = tf.Variable(tf.random_uniform([784, 10]))
+b = tf.Variable(tf.random_uniform([10]))
 
 # build model
 model = tf.matmul(x, w) + b
