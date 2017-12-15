@@ -12,8 +12,9 @@ from tflearn.layers.estimator import regression
 import tflearn.datasets.oxflower17 as oxflower17
 
 
-if __name == "__main__":
-    X, y = oxflower17.load_data(one_hot=True, resize_pics=(227, 227))
+if __name__ == "__main__":
+    X, y = oxflower17.load_data(dirname="/home/buxizhizhoum/1-Work/Documents/2-Codes/machine_learning/tf/17flowers",
+                                one_hot=True, resize_pics=(227, 227))
 
     network = input_data(shape=[None, 227, 227, 3])
     network = conv_2d(network, 96, 11, strides=4, activation="relu")
