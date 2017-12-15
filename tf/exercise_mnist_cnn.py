@@ -76,6 +76,7 @@ layer_3_out = tf.nn.dropout(layer_3_out, keep_prob=dropout)
 # 4th layer
 layer_4 = tf.nn.relu(tf.matmul(layer_3_out, w3))
 layer_4_out = tf.nn.dropout(layer_4, 0.5)
+# layer_4_out = layer_4
 
 # full connected layer
 res = tf.matmul(layer_4_out, w_o)
@@ -112,3 +113,5 @@ while step < training_times:
 
     accuracy_rate = sess.run(accuracy, feed_dict={x: test_x, y_: test_y})
     print(accuracy_rate)
+
+sess.close()
