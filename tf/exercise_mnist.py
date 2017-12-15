@@ -100,3 +100,4 @@ while step < train_times:
         print(sess.run(accuracy, feed_dict={x: test_x, y_: test_y}))
     step += 1
 
+sess.close()
