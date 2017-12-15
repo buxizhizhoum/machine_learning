@@ -21,16 +21,16 @@ y_ = tf.placeholder("float", [None, 10])
 # the placeholder above should feed in training, with the key x and y_
 
 # todo: choose one way to initialize w and b from below method.
-# initialize to zero
+# 1.initialize to zero
 # w = tf.Variable(tf.zeros([784, 10]))
 # b = tf.Variable(tf.zeros([10]))
 
-# initialize to random normal
+# 2.initialize to random normal
 # question: why random normal need more iter times to get same accuracy?
 # w = tf.Variable(tf.random_normal([784, 10]))
 # b = tf.Variable(tf.random_normal([10]))
 
-# initialize to random uniform
+# 3.initialize to random uniform
 # why this move quickly to high accuracy than random normal?
 w = tf.Variable(tf.random_uniform([784, 10]))
 b = tf.Variable(tf.random_uniform([10]))
