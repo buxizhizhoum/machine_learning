@@ -39,6 +39,10 @@ train_step = tf.train.\
 
 # calculate accuracy, this is only need when print accuracy
 predict_equal = tf.equal(tf.argmax(y_, 1), tf.argmax(predict, 1))
+# [correct, incorrect, correct, correct, incorrect]
+# = [True, False, True, True, False]
+# = [1, 0, 1, 1, 0] # cast transfer True or False to 1 or 0
+# with mean of 0.6
 accuracy = tf.reduce_mean(tf.cast(predict_equal, "float"))
 
 # train, and print accuracy every 100 time
