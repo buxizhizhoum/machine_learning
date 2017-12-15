@@ -4,12 +4,35 @@
 exercise of mnist
 
 the model is: tf.softmax(tf.matmul(x, w) + b)
+
+step1:
+    build model:
+        predict = tf.softmax(tf.matmul(x, w) + b)
+
+        rely on: x = tf.placeholder()
+                w = tf.Variable()
+                b = tf.Variable()
+step2:
+    cost function:
+        cross_entropy = tf.reduce_mean(y_ * log(predict))
+
+        rely on: y_ = tf.placeholder()
+
+step3:
+    training, minimize cost function:
+        gradient decent
+        tf.train.GradientDescentOptimizer().minimize(cost_function)
+
+step4:
+    accuracy:
+        predict_accuracy = tf.equal(tf.argmax(predict, 1), tf.argmax(y_, 1))
+        accuracy = tf.reduce_mean(tf.cast(predict_accuracy))
 """
 import tensorflow as tf
 
 from tensorflow.examples.tutorials.mnist import input_data
 
-learning_rate = 0.001
+learning_rate = 0.003
 train_times = 10000
 
 mnist_data_sets = input_data.read_data_sets("MNIST_data/", one_hot=True)
@@ -46,6 +69,11 @@ init = tf.global_variables_initializer()
 sess = tf.Session()
 sess.run(init)
 
+# todo: what is the difference between 2 below cross_entropy
+# calculate difference between predict and labels
+# cross_entropy = tf.reduce_mean(
+#     tf.nn.softmax_cross_entropy_with_logits(logits=predict, labels=y_))
+# above method seems not as good as below in this case.
 # cost with cross entropy
 cross_entropy = -tf.reduce_sum(y_ * tf.log(predict))
 train_step = tf.train.\
