@@ -18,7 +18,7 @@ x = tf.placeholder("float", [None, 784])
 y_ = tf.placeholder("float", [None, 10])
 # the placeholder above should feed in training, with the key x and y_
 
-# todo: choose one way to initialize from below method.
+# todo: choose one way to initialize w and b from below method.
 # initialize to zero
 # w = tf.Variable(tf.zeros([784, 10]))
 # b = tf.Variable(tf.zeros([10]))
