@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 """
-exercise of mnist with cnn
+exercise of mnist with cnn, not passed
 
 """
 
