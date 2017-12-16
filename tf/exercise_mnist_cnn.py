@@ -16,7 +16,7 @@ summary:
     with next_batch(), still need to know why?
 
 
-todo: add bias
+todo: add bias?
 """
 
 import tensorflow as tf
