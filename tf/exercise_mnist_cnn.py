@@ -42,9 +42,6 @@ test_x = mnist_data_sets.train.images
 test_y = mnist_data_sets.train.labels
 
 
-# w = tf.Variable(tf.random_normal([784, 10]))
-# b = tf.Variable(tf.constant(0.1))
-
 # reshape to [-1, 28, 28, 1], -1 means ignore the quality of images,
 # the size of image is 28 * 28, last 1 means the passage 1,
 # because of the image has no color
