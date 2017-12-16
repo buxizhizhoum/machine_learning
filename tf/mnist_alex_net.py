@@ -3,6 +3,8 @@
 
 import tensorflow as tf
 
+from tensorflow.python import debug as tf_debug
+
 
 def conv_2d(name, x, W, b, strides=1):
     x = tf.nn.conv2d(x, W,
@@ -129,6 +131,8 @@ if __name__ == "__main__":
     init = tf.global_variables_initializer()
     with tf.Session() as sess:
         sess.run(init)
+        # debug
+        # sess = tf_debug.LocalCLIDebugWrapperSession(sess, ui_type="readline")
         step = 0
         while step * batch_size < training_iter:
             batch_x, batch_y = mnist.train.next_batch(batch_size)
