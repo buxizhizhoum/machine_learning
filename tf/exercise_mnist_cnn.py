@@ -124,9 +124,11 @@ step = 0
 while step < training_times:
     # should not pass too many data at one time, the memory is limited!
     index_start = range(0, len(train_x), batch_size)
-    index_end = range(batch_size, len(train_x)+1, batch_size)
-    index_dual = zip(index_start, index_end)
-    for start, end in index_dual:
+    # index_end = range(batch_size, len(train_x)+1, batch_size)
+    # index_dual = zip(index_start, index_end)
+    # for start, end in index_dual:
+    for start in index_start:
+        end = start + batch_size
         train_x_batch = train_x[start: end]
         train_y_batch = train_y[start: end]
 
