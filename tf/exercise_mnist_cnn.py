@@ -46,12 +46,16 @@ test_y = mnist_data_sets.train.labels
 # the size of image is 28 * 28, last 1 means the passage 1,
 # because of the image has no color
 
-# todo: what is the difference between the tow reshape below?
+# todo: what is the difference between the tow reshape below [] or not?
 train_x = train_x.reshape([-1, 28, 28, 1])
 test_x = test_x.reshape([-1, 28, 28, 1])
 
 # train_x = train_x.reshape(-1, 28, 28, 1)
 # test_x = test_x.reshape(-1, 28, 28, 1)
+
+# not work
+# train_x = tf.reshape(train_x, [-1, 28, 28, 1])
+# test_x = tf.reshape(test_x, [-1, 28, 28, 1])
 
 x = tf.placeholder("float", [None, 28, 28, 1])
 y_ = tf.placeholder("float", [None, 10])
@@ -89,6 +93,7 @@ layer_3_out = tf.nn.max_pool(layer_3, ksize=[1, 2, 2, 1],
                              strides=[1, 2, 2, 1],
                              padding="SAME")
 # layer_3_out = tf.reshape(layer_3_out, [-1, w4.get_shape().as_list()[0]])
+# reshape to a vector in order to used as the input of fc layer.
 layer_3_out = tf.reshape(layer_3_out, [-1, 2048])
 layer_3_out = tf.nn.dropout(layer_3_out, dropout)
 
@@ -147,5 +152,38 @@ while step < training_times:
                                             dropout: 0.5})
         print("accuracy:", accuracy_rate)
     step += 1
+
+
+# while step < training_times:
+#     # should not pass too many data at one time, the memory is limited!
+#     # index_start = range(0, len(train_x), batch_size)
+#     # index_end = range(batch_size, len(train_x)+1, batch_size)
+#     # index_dual = zip(index_start, index_end)
+#     # for start, end in index_dual:
+#     # for start in index_start:
+#     #     end = start + batch_size
+#     #     train_x_batch = train_x[start: end]
+#     #     train_y_batch = train_y[start: end]
+#     #
+#     #     test_x_batch = test_x[start: end]
+#     #     test_y_batch = test_y[start: end]
+#     train_x_batch, train_y_batch = mnist_data_sets.train.next_batch(batch_size)
+#     test_x_batch, test_y_batch = mnist_data_sets.train.next_batch(batch_size)
+#     # train_x_batch = tf.reshape(train_x_batch, [-1, 28, 28, 1])
+#     # test_x_batch = tf.reshape(test_x_batch, [-1, 28, 28, 1])
+#     sess.run(train_step,
+#              feed_dict={x: train_x_batch,
+#                         y_: train_y_batch,
+#                         dropout: 0.5})
+#
+#     print("training")
+#     # should not pass too many data at one time, the memory is limited!
+#     accuracy_rate = sess.run(accuracy,
+#                              feed_dict={x: test_x_batch,
+#                                         y_: test_y_batch,
+#                                         dropout: 0.5})
+#     print("accuracy:", accuracy_rate)
+#     step += 1
+
 
 sess.close()
