@@ -15,8 +15,6 @@ summary:
     2.reshape could not be done, after the data sets have been get
     with next_batch(), still need to know why?
 
-
-todo: step not display normally, always 0.
 """
 
 import tensorflow as tf
