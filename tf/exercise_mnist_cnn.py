@@ -25,9 +25,11 @@ from tensorflow.examples.tutorials.mnist import input_data
 from tensorflow.python import debug as tf_debug
 
 
-data_path = "/home/think/2_study/1_machine_learning/machine_learning/tf/MNIST_data"
-mnist_data_sets = input_data.read_data_sets(data_path, one_hot=True)
-
+# data_path = "/home/think/2_study/1_machine_learning/machine_learning/tf/MNIST_data"
+# mnist_data_sets = input_data.read_data_sets(data_path, one_hot=True)
+# if the mnist data set is located at same folder with this script,
+# use code below
+mnist_data_sets = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 learning_rate = 0.001
 batch_size = 128
