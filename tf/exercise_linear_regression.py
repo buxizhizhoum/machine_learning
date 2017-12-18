@@ -26,7 +26,7 @@ def build_model(xx, kk, b=None):
 model = build_model(x, k, b)
 
 cost = tf.square(y - model)
-# cost = -tf.reduce_sum(y * tf.log(model))  # not work, k is always increase?
+# cost = -tf.reduce_sum(y * tf.log(model))  # not work , k is always increase?
 train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
 
 init = tf.global_variables_initializer()
