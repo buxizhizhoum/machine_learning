@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
+"""
+multiply of two float number
+"""
 import tensorflow as tf
 
 
