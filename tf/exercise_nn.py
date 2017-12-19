@@ -3,7 +3,7 @@
 """
 neural network, single hidden layer.
 
-the accuracy of single hidden layer nn is about 80%, very low.
+the accuracy of single hidden layer nn is about 80%, too low.
 """
 import tensorflow as tf
 import numpy as np
