@@ -3,7 +3,9 @@
 """
 neural network, single hidden layer.
 
-the accuracy of single hidden layer nn is about 80%, too low.
+the accuracy of single hidden layer nn is more than 93% better than softmax
+example on official website.
+
 """
 import tensorflow as tf
 import numpy as np
@@ -11,22 +13,32 @@ import numpy as np
 from tensorflow.examples.tutorials.mnist import input_data
 
 
-learning_rate = 0.001
-iter_num = 10
+learning_rate = 0.05
+iter_num = 30
 batch_size = 128
 
 x = tf.placeholder("float", [None, 784])
 y_ = tf.placeholder("float", [None, 10])
-# w = tf.Variable(tf.random_normal([784, 10]))
-w = tf.Variable(tf.zeros([784, 10]))
-b = tf.Variable(tf.random_uniform([10]))
-# b = tf.Variable(tf.zeros([10]))
+# weights of input layer
+w_in = tf.Variable(tf.random_normal([784, 784], stddev=0.01))
+# weights of hiddern layer
+w_hidden = tf.Variable(tf.random_normal([784, 10], stddev=0.01))
+# biases of input layer
+b_in = tf.Variable(tf.random_uniform([784]))
+# biases of hidden layer
+b_hidden = tf.Variable(tf.random_uniform([10]))
 
 
 def model():
     # build model
-    y = tf.add(tf.matmul(x, w), b)
-    return y
+    hidden_in_tmp = tf.add(tf.matmul(x, w_in), b_in)
+    # hidden_in = tf.nn.sigmoid(hidden_in_tmp)  # not work fine.
+    hidden_in = tf.nn.softmax(hidden_in_tmp)
+
+    hidden_out_tmp = tf.add(tf.matmul(hidden_in, w_hidden), b_hidden)
+    hidden_out = tf.nn.softmax(hidden_out_tmp)
+
+    return hidden_out
 
 y = model()
 # cost function, cross entropy
@@ -47,13 +59,20 @@ if __name__ == "__main__":
 
         step = 0
         while step < iter_num:
-            for i in range(10000):
+            for i in range(1000):
                 train_x_batch, train_y_batch = mnist.train.next_batch(128)
                 sess.run(train_step,
                          feed_dict={x: train_x_batch, y_: train_y_batch})
+                # run every 100 times
+                if i % 100 == 0:
+                    # accuracy on train data set
+                    accuracy_train = sess.run(accuracy,
+                                              feed_dict={x: train_x_batch,
+                                                         y_: train_y_batch})
+                    print(accuracy_train)
 
-                accuracy_val = sess.run(accuracy,
-                                        feed_dict={x: train_x_batch,
-                                                   y_: train_y_batch})
-                print(accuracy_val)
             step += 1
+            # calculate accuracy on test data set
+            accuracy_test = sess.run(accuracy,
+                                     feed_dict={x: test_x, y_: test_y})
+            print("test accuracy: %s", accuracy_test)
