@@ -18,8 +18,13 @@ x = tf.placeholder("float", [None, 784])
 
 mask = tf.placeholder("float", [None, 784])
 
+w_max = 4 * np.sqrt(6.0 / 784 * 500)
 # weights and biases to encode
-w = tf.Variable(tf.random_uniform([784, 500]))  # means of 500?
+# todo: after add maxval and minval in initialization of w
+# todo: cost starts to decrease when training, why?
+w = tf.Variable(tf.random_uniform([784, 500],
+                                  maxval=w_max,
+                                  minval=-w_max))  # means of 500?
 b = tf.Variable(tf.zeros([500]))
 
 # weights and biases to decode
