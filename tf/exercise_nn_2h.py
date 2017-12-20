@@ -10,7 +10,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 
 
 learning_rate = 0.001
-iter_num = 30
+iter_num = 50
 batch_size = 128  # how to choose?
 
 x = tf.placeholder("float", [None, 784])  # input
@@ -90,7 +90,8 @@ if __name__ == "__main__":
             accuracy_test = sess.run(accuracy,
                                      feed_dict={x: test_x,
                                                 y_: test_y})
-            print("accuracy on test data sets: %s", accuracy_test)
+            print("accuracy on test data sets: %s after %d of iter"
+                  % (accuracy_test, step))
 
 
 
