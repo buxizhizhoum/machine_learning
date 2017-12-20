@@ -2,6 +2,11 @@
 # -*- coding: utf-8 -*-
 """
 neural network with 2 hidden layer
+
+the learning rate is changed during training, it is only to accelerate
+training, and could be moved if not necessary
+
+overfit? on train sets, accuracy 99%, on test sets, 93.6%
 """
 import tensorflow as tf
 import numpy as np
@@ -9,6 +14,11 @@ import numpy as np
 from tensorflow.examples.tutorials.mnist import input_data
 
 
+# 0.003 is relatively too large rate in this question, 0.002 or 0.001 is more
+# proper, however since the learning rate will decrease during training, so it
+# is still working.
+# phenomenon: if rate is 0.003, the accuracy could not increase, until it
+# decrease to about 0.0025
 learning_rate = 0.003
 iter_num = 50
 batch_size = 128  # how to choose?
@@ -62,6 +72,21 @@ accuracy = tf.reduce_mean(tf.cast(predict_eql, "float"))
 # initialize all variables
 init = tf.global_variables_initializer()
 
+
+def modify_learning_rate(rate):
+    """
+    this is only to decrease learning rate during training, it is ok not to use
+    this function, the affect is only to accelerate training
+    :param rate:
+    :return:
+    """
+    # decrease rate by some percent
+    rate -= rate * 0.1
+    if rate < 0.0001:
+        rate = 0.0001
+    return rate
+
+
 if __name__ == "__main__":
     mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
     # test data set
@@ -87,6 +112,9 @@ if __name__ == "__main__":
                     print(accuracy_train)
 
             step += 1
+            # it is ok to remove next line, it is only to modify learning rate
+            learning_rate = modify_learning_rate(learning_rate)
+            print("learning rate: %s" % learning_rate)
             accuracy_test = sess.run(accuracy,
                                      feed_dict={x: test_x,
                                                 y_: test_y})
