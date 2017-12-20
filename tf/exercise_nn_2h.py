@@ -9,7 +9,7 @@ import numpy as np
 from tensorflow.examples.tutorials.mnist import input_data
 
 
-learning_rate = 0.001
+learning_rate = 0.003
 iter_num = 50
 batch_size = 128  # how to choose?
 
