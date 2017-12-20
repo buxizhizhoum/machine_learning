@@ -90,7 +90,7 @@ if __name__ == "__main__":
             accuracy_test = sess.run(accuracy,
                                      feed_dict={x: test_x,
                                                 y_: test_y})
-            print("accuracy on test data sets: %s after %d of iter"
+            print("accuracy on test data sets: %s after %d times of iter"
                   % (accuracy_test, step))
 
 
