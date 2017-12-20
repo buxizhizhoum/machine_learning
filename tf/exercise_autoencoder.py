@@ -40,10 +40,10 @@ def model():
 
 y = model()
 
-# cost = tf.reduce_sum(tf.square(x - y))
-cost = tf.reduce_sum(tf.pow((x-y), 2))
-# train_step = tf.train.RMSPropOptimizer(learning_rate).minimize(cost)
-train_step = tf.train.GradientDescentOptimizer(0.02).minimize(cost)
+cost = tf.reduce_sum(tf.square(x - y))
+# cost = tf.reduce_sum(tf.pow((x-y), 2))
+train_step = tf.train.RMSPropOptimizer(learning_rate).minimize(cost)
+# train_step = tf.train.GradientDescentOptimizer(0.02).minimize(cost)
 
 accuracy = tf.reduce_mean(tf.cast(
     tf.equal(tf.argmax(x, 1), tf.argmax(y, 1)), "float"))
