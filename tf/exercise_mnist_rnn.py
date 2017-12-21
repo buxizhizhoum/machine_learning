@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 """
-rnn, to train and test with mnist data sets.
+rnn, to train and test with mnist data sets, the finally accuracy is about 93%
 """
 
 import tensorflow as tf
