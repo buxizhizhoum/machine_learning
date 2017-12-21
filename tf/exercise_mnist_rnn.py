@@ -12,7 +12,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 
 l_rate = 0.01
 batch_size = 128
-iter_num = 30
+iter_num = 10  # modify here if you the training is not enough
 
 
 x = tf.placeholder("float", [None, 28, 28])
