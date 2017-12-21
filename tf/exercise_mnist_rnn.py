@@ -53,6 +53,8 @@ init = tf.global_variables_initializer()
 if __name__ == "__main__":
     mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
     test_x, test_y = mnist.test.images, mnist.test.labels
+    # reshape test_x
+    test_x = test_x.reshape([-1, 28, 28])
 
     with tf.Session() as sess:
         # initialize all variables
@@ -60,20 +62,20 @@ if __name__ == "__main__":
 
         step = 0
         while step < iter_num:
-            for i in range(1000):
-                train_x_batch, train_y_batch \
-                    = mnist.train.next_batch(batch_size)
-                # reshape train data
-                train_x_batch = train_x_batch.reshape([batch_size, 28, 28])
-                sess.run(train_step,
-                         feed_dict={x: train_x_batch, y_: train_y_batch})
-
-                if i % 100 == 0:
-                    # calculate accuracy
-                    accuracy_train = sess.run(accuracy,
-                                              feed_dict={x: train_x_batch,
-                                                         y_: train_y_batch})
-                    print("train accuracy: %s" % accuracy_train)
+            # for i in range(1000):
+            #     train_x_batch, train_y_batch \
+            #         = mnist.train.next_batch(batch_size)
+            #     # reshape train data
+            #     train_x_batch = train_x_batch.reshape([batch_size, 28, 28])
+            #     sess.run(train_step,
+            #              feed_dict={x: train_x_batch, y_: train_y_batch})
+            #
+            #     if i % 100 == 0:
+            #         # calculate accuracy
+            #         accuracy_train = sess.run(accuracy,
+            #                                   feed_dict={x: train_x_batch,
+            #                                              y_: train_y_batch})
+            #         print("train accuracy: %s" % accuracy_train)
 
             step += 1
             # todo: not very clear here
@@ -85,19 +87,21 @@ if __name__ == "__main__":
             # get a slice from text_x_index, it is random index,
             # so the finally test_x data set get with those index is random
             test_batch_index = test_x_index[0:128]  # size is 128
-            # reshape test_x
-            test_x = test_x.reshape([-1, 28, 28])
             # get random test data from test_x
-            test_x = test_x[test_batch_index]
-            test_y = test_y[test_batch_index]
+            # this method only support in numpy, to get some item from a array
+            # with a index in type of list
+            test_x_batch = test_x[test_batch_index]  # numpy array support
+            test_y_batch = test_y[test_batch_index]
 
-            # test_x = [test_x[i] for i in test_batch_index]
-            # test_y = [test_y[i] for i in test_batch_index]
+            # both of numpy and python support method below
+            # test_x_batch = [test_x[i] for i in test_batch_index]
+            # test_y_batch = [test_y[i] for i in test_batch_index]
 
             # below lines will work if remove lines start after step += 1
             # because of the shape is not match
             accuracy_test = sess.run(accuracy,
-                                     feed_dict={x: test_x, y_: test_y})
+                                     feed_dict={x: test_x_batch,
+                                                y_: test_y_batch})
             print("test accuracy: %s after %s steps" % (accuracy_test, step))
 
 
