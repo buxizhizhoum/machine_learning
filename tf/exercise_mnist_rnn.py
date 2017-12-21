@@ -42,7 +42,7 @@ def model(x, w_in, w_out, b_in, b_out):
     return result
 
 y = model(x, w_in, w_out, b_in, b_out)
-cost = tf.nn.softmax_cross_entropy_with_logits_v2(labels=y_, logits=y)
+cost = tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y)
 train_step = tf.train.AdamOptimizer(l_rate).minimize(cost)
 
 accuracy_list = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
@@ -62,20 +62,20 @@ if __name__ == "__main__":
 
         step = 0
         while step < iter_num:
-            # for i in range(1000):
-            #     train_x_batch, train_y_batch \
-            #         = mnist.train.next_batch(batch_size)
-            #     # reshape train data
-            #     train_x_batch = train_x_batch.reshape([batch_size, 28, 28])
-            #     sess.run(train_step,
-            #              feed_dict={x: train_x_batch, y_: train_y_batch})
-            #
-            #     if i % 100 == 0:
-            #         # calculate accuracy
-            #         accuracy_train = sess.run(accuracy,
-            #                                   feed_dict={x: train_x_batch,
-            #                                              y_: train_y_batch})
-            #         print("train accuracy: %s" % accuracy_train)
+            for i in range(1000):
+                train_x_batch, train_y_batch \
+                    = mnist.train.next_batch(batch_size)
+                # reshape train data
+                train_x_batch = train_x_batch.reshape([batch_size, 28, 28])
+                sess.run(train_step,
+                         feed_dict={x: train_x_batch, y_: train_y_batch})
+
+                if i % 100 == 0:
+                    # calculate accuracy
+                    accuracy_train = sess.run(accuracy,
+                                              feed_dict={x: train_x_batch,
+                                                         y_: train_y_batch})
+                    print("train accuracy: %s" % accuracy_train)
 
             step += 1
             # todo: not very clear here
