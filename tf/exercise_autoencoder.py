@@ -22,6 +22,7 @@ w_max = 4 * np.sqrt(6.0 / 784 * 500)
 # weights and biases to encode
 # todo: after add maxval and minval in initialization of w
 # todo: cost starts to decrease when training, why?
+# the impact of initialization?
 w = tf.Variable(tf.random_uniform([784, 500],
                                   maxval=w_max,
                                   minval=-w_max))  # means of 500?
