@@ -14,6 +14,7 @@ of them have been tested.
 exercise开头的程序是学习时的练习代码，已经在上述环境中测试通过。
 
 during the scripts above, the means of mostly used variables are listed below:
+
 在上述的程序中，常用的一些变量的意义如下：
     
     x: input, in mnist, it is the images
