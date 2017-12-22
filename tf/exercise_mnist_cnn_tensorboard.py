@@ -15,7 +15,7 @@ summary:
     2.reshape could not be done, after the data sets have been get
     with next_batch(), still need to know why?
 
-    3.when start the program, run:
+    3.when start the program, run: 
         tensorboard --logdir /tmp/tensorboard/test
     to start tensorboart, then, visit:
         localhost:6006 with web browser to look at the visualized data.
