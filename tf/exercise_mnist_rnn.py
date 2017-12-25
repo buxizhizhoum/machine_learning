@@ -2,6 +2,24 @@
 # -*- coding: utf-8 -*-
 """
 rnn, to train and test with mnist data sets, the finally accuracy is about 93%
+
+configuration
+                       Out * W + b -> 10 labels for each image, O[? 28], W[28 10], B[10]
+                      ^ (Out: output 28 vec from 28 vec input)
+                      |
+     +-+  +-+       +--+
+     |1|->|2|-> ... |28| time_step_size = 28
+     +-+  +-+       +--+
+      ^    ^    ...  ^
+      |    |         |
+img1:[28] [28]  ... [28]
+img2:[28] [28]  ... [28]
+img3:[28] [28]  ... [28]
+...
+img128 or img256 (batch_size or test_size 256)
+     each input size = input_vec_size=lstm_size=28
+
+ref: https://github.com/nlintz/TensorFlow-Tutorials/blob/master/07_lstm.py
 """
 
 import tensorflow as tf
