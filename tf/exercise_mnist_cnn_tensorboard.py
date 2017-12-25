@@ -77,7 +77,7 @@ w4 = tf.Variable(tf.random_normal(shape=[128 * 4 * 4, 625], stddev=0.01))
 w_o = tf.Variable(tf.random_normal(shape=[625, 10], stddev=0.01))
 
 
-def model(x, y_, w, w2, w3, w4):
+def model(x, w, w2, w3, w4):
     # first layer
     # ksize in the max_pool is
     # the size of the window for each dimension of the input tensor
@@ -89,7 +89,8 @@ def model(x, y_, w, w2, w3, w4):
     layer_1_out = tf.nn.dropout(layer_1_out, dropout)
 
     # 2nd layer
-    layer_2 = tf.nn.conv2d(layer_1_out, w2, strides=[1, 1, 1, 1], padding="SAME")
+    layer_2 = tf.nn.conv2d(layer_1_out, w2, strides=[1, 1, 1, 1],
+                           padding="SAME")
     layer_2 = tf.nn.relu(layer_2)
     layer_2_out = tf.nn.max_pool(layer_2, ksize=[1, 2, 2, 1],
                                  strides=[1, 2, 2, 1],
@@ -97,7 +98,8 @@ def model(x, y_, w, w2, w3, w4):
     layer_2_out = tf.nn.dropout(layer_2_out, dropout)
 
     # 3rd layer
-    layer_3 = tf.nn.conv2d(layer_2_out, w3, strides=[1, 1, 1, 1], padding="SAME")
+    layer_3 = tf.nn.conv2d(layer_2_out, w3, strides=[1, 1, 1, 1],
+                           padding="SAME")
     layer_3 = tf.nn.relu(layer_3)
     layer_3_out = tf.nn.max_pool(layer_3, ksize=[1, 2, 2, 1],
                                  strides=[1, 2, 2, 1],
@@ -118,7 +120,7 @@ def model(x, y_, w, w2, w3, w4):
     # is softmax_cross_entropy_with_logits() where softmax is included
     return res
 
-y = model(x, y_, w, w2, w3, w4)
+y = model(x, w, w2, w3, w4)
 # cost function
 # softmax_cross_entropy_with_logits_v2 is not supported in tensorflow1.4.1
 cross_entropy = tf.reduce_mean(
