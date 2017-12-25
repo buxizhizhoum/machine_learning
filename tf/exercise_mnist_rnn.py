@@ -45,9 +45,11 @@ b_out = tf.Variable(tf.random_normal([10]))
 
 
 def model(x, w_in, w_out, b_in, b_out):
+    # x is [128, 28, 28], x_in is 2d tensor, contain 28 columns, [128*28, 28]
     x_in = tf.reshape(x, [-1, 28])
+    # y_in_o out put of input layer, [128*28, 128]
     y_in_o = tf.add(tf.matmul(x_in, w_in), b_in)
-    # input of next layer
+    # input of next layer, reshape back to [128, 28, 128]
     x_out_in = tf.reshape(y_in_o, [-1, 28, 128])
     # rnn
     lstm_c = tf.nn.rnn_cell.BasicLSTMCell(128,
