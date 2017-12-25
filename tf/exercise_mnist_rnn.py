@@ -4,7 +4,7 @@
 rnn, to train and test with mnist data sets, the finally accuracy is about 93%
 
 configuration
-                       Out * W + b -> 10 labels for each image, O[? 28], W[28 10], B[10]
+                       Out * W + b -> 10 labels for each image, Out[? 28], W[28 10], B[10]
                       ^ (Out: output 28 vec from 28 vec input)
                       |
      +-+  +-+       +--+
