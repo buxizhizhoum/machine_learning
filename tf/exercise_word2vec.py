@@ -22,7 +22,7 @@ from collections import Counter
 
 
 l_rate = 0.01  # learning_rate
-embedding_size = 2  # dimension of vec
+embedding_size = 200  # dimension of vec, if need to visualize, set to 2
 num_sampled = 15    # Number of negative examples to sample.
 batch_size = 20
 
