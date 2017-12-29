@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 """
-not very clear about tf.nn.embedding_lookup()
+ref: https://github.com/nlintz/TensorFlow-Tutorials/blob/master/08_word2vec.py
 
 at first, there should be a preprocessor for the data, all of the text is
 transferred to single words, the words should transferred to int number.
@@ -10,6 +10,11 @@ requirements of tf.nn.embedding_lookup() function.
 
 during the training, the data to feed is in type of {input_word, context_word}
 
+still some questions:
+    1. in which step the words are transferred to one hot vectors? or in this
+    case, int number is enough?
+
+    2. not very clear about tf.nn.embedding_lookup()
 """
 import math
 import matplotlib.pyplot as plt
