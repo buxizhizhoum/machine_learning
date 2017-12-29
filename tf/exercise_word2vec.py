@@ -4,12 +4,11 @@
 not very clear about tf.nn.embedding_lookup()
 
 at first, there should be a preprocessor for the data, all of the text is
-transferred to single words,
+transferred to single words, the words should transferred to int number.
 the intention to do this is to meet the input
 requirements of tf.nn.embedding_lookup() function.
 
-during the training the data to feed is in type of {input_word, context_word}
-
+during the training, the data to feed is in type of {input_word, context_word}
 
 """
 import math
