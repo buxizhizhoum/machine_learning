@@ -104,12 +104,12 @@ layer_4_out = tf.nn.dropout(layer_4, 0.5)
 
 # full connected layer
 res = tf.matmul(layer_4_out, w_o)
-# does softmax needed?
+# does softmax needed? no, it is in loss function
 
 
 # cost function
 cross_entropy = tf.reduce_mean(
-    tf.nn.softmax_cross_entropy_with_logits_v2(logits=res, labels=y_))
+    tf.nn.softmax_cross_entropy_with_logits(logits=res, labels=y_))
 
 train_step = tf.train.RMSPropOptimizer(learning_rate).minimize(cross_entropy)
 
