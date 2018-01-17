@@ -83,12 +83,18 @@ def train(mnist):
         global_step=global_step,
         decay_steps=decay_steps,
         decay_rate=LEARNING_RATE_DECAY)
-
+    # 优化使用正则化的损失函数loss，对比没有正则化的损失函数，在这个例子可以
+    # 提高精度1%
     train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(
         loss, global_step=global_step)
-    # train_op = tf.group(train_step, variable_averages_op)
-    with tf.control_dependencies([train_step, variable_averages_op]):
-        train_op = tf.no_op(name="train")
+    # 下面是在优化时没有使用正则化的损失函数，会导致过拟合
+    # train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(
+    #     cross_entropy_mean, global_step=global_step)
+    # 一次完成更新参数和更新参数的滑动平均值两个操作
+    train_op = tf.group(train_step, variable_averages_op)
+    # 与上一行代码等价
+    # with tf.control_dependencies([train_step, variable_averages_op]):
+    #     train_op = tf.no_op(name="train")
 
     correct_prediction = tf.equal(tf.argmax(y_average, 1), tf.argmax(y_, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
@@ -103,14 +109,16 @@ def train(mnist):
                      y_: mnist.test.labels}
 
         for i in range(TRAINING_STEPS):
+            xs, ys = mnist.train.next_batch(BATCH_SIZE)
+            sess.run(train_op, feed_dict={x: xs, y_: ys})
+
             if i % 100 == 0:
                 validate_acc = sess.run(accuracy, feed_dict=validate_feed)
                 print("%s: validate accuracy: %s" % (i, validate_acc))
                 test_acc = sess.run(accuracy, feed_dict=test_feed)
                 print("%s: test accuracy: %s" % (i, test_acc))
-
-            xs, ys = mnist.train.next_batch(BATCH_SIZE)
-            sess.run(train_op, feed_dict={x: xs, y_: ys})
+                # accuracy on training batch
+                print(sess.run(accuracy, feed_dict={x: xs, y_: ys}))
 
         test_acc = sess.run(accuracy, feed_dict=test_feed)
         print("test accuracy: %s" % test_acc)
