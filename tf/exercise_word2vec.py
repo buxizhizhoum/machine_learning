@@ -3,6 +3,8 @@
 """
 ref: https://github.com/nlintz/TensorFlow-Tutorials/blob/master/08_word2vec.py
 
+skip-gram, predict context according to input words.
+
 at first, there should be a preprocessor for the data, all of the text is
 transferred to single words, the words should transferred to int number.
 the intention to do this is to meet the input
