@@ -83,8 +83,7 @@ def train(mnist):
         global_step=global_step,
         decay_steps=decay_steps,
         decay_rate=LEARNING_RATE_DECAY)
-    # 优化使用正则化的损失函数loss，对比没有正则化的损失函数，在这个例子可以
-    # 提高精度1%
+    # 优化使用正则化的损失函数loss
     train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(
         loss, global_step=global_step)
     # 下面是在优化时没有使用正则化的损失函数，会导致过拟合
