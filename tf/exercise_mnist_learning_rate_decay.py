@@ -1,7 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 """
-single hidden layer nn, learning_rate decay, and moving average of variables
+single hidden layer nn, learning_rate decay, and moving average of variables.
+
+the accuracy on test data set is 97.96%
 """
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
