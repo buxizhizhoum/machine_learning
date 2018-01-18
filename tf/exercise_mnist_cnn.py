@@ -48,7 +48,7 @@ test_y = mnist_data_sets.train.labels
 # the size of image is 28 * 28, last 1 means the passage 1,
 # because of the image has no color
 
-# todo: what is the difference between the tow reshape below [] or not?
+# todo: what is the difference between the two reshape below [] or not?
 train_x = train_x.reshape([-1, 28, 28, 1])
 test_x = test_x.reshape([-1, 28, 28, 1])
 
@@ -111,7 +111,7 @@ res = tf.matmul(layer_4_out, w_o)
 
 # cost function
 cross_entropy = tf.reduce_mean(
-    tf.nn.softmax_cross_entropy_with_logits_v2(logits=res, labels=y_))
+    tf.nn.softmax_cross_entropy_with_logits(logits=res, labels=y_))
 
 train_step = tf.train.RMSPropOptimizer(learning_rate).minimize(cross_entropy)
 
