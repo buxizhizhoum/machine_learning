@@ -8,7 +8,6 @@ OUTPUT_NODE = 10
 LAYER_1_NODE = 784
 
 
-
 def get_weight_variables(shape, regularizer):
     weights = tf.get_variable(
         "weights",
