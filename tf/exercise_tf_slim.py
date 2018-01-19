@@ -2,6 +2,14 @@
 # -*- coding: utf-8 -*-
 """
 cnn which is used to solve MNIST problem, slim is used to simplify program.
+
+the shape of feed dict should be align with its placeholder, if there are
+aligned, the data could be feed.
+
+there are two ways to change the shape of data:
+    1. reshape before feed, reshape with data.reshape()
+    2. reshape after feed, reshape with tf.reshape(), after feed, the data is
+    tensor, its reshape should rely on tf.reshape()
 """
 
 import tensorflow as tf
@@ -11,13 +19,21 @@ from tensorflow.examples.tutorials.mnist import input_data
 
 
 LEARNING_RATE = 0.01
-TRAINING_STEPS = 10000
+TRAINING_STEPS = 1000
 BATCH_SIZE = 100
 
 
 def model(x):
-    # tf.reshape(x, [None, 28, 28])
-    # x = tf.reshape(x, [-1, 28, 28, 1])
+    """
+    build model
+    :param x:
+    :return:
+    """
+    """
+    if the first line is used, it means the input data is not reshaped, and
+    the tensor should be reshaped in order to keep the shape of the image.
+    """
+    x = tf.reshape(x, [-1, 28, 28, 1])
     layer_1 = slim.conv2d(x, 6, [3, 3])
     pool_1 = slim.max_pool2d(layer_1, [2, 2])
 
@@ -36,7 +52,21 @@ def model(x):
 
 
 def train(mnist):
-    x = tf.placeholder(tf.float32, [None, 28, 28, 1])
+    """
+
+    :param mnist:
+    :return:
+    """
+    """
+    if this line is used, input data should not be reshaped, since the shape
+    is align with input data, the feed could be done before conv
+    """
+    x = tf.placeholder(tf.float32, [None, 784])
+    """
+    if this line is used, input data should be reshaped before feed, if not
+    the data could not be feed in. And there should no reshape before conv.
+    """
+    # x = tf.placeholder(tf.float32, [None, 28, 28, 1])
     y_ = tf.placeholder(tf.float32, [None, 10])
 
     y = model(x)
@@ -58,15 +88,27 @@ def train(mnist):
 
         for i in range(TRAINING_STEPS*10):
             x_batch, y_batch = mnist.train.next_batch(100)
-            x_batch = x_batch.reshape([-1, 28, 28, 1])  # attention here
+            """
+            已经定义了x为placeholder，此时在feed数据时就要保持数据shape的一致，
+            也可以在这里不进行reshape，把placeholder定义成和数据一致的格式，在
+            feed之后卷积之前，即是建模部分使用tf.reshape()进行tensor的reshape
+            """
+            # x_batch = x_batch.reshape([-1, 28, 28, 1])  # attention here
 
             sess.run(train_step, feed_dict={x: x_batch, y_: y_batch})
 
             if i % 100 == 0:
+                # calculate accuracy on training data set
                 accuracy_rate = sess.run(
                     accuracy,
                     feed_dict={x: x_batch, y_: y_batch})
-                print("accuracy: %s" % accuracy_rate)
+                print("%s accuracy: %s" % (i, accuracy_rate))
+                # calculate test accuracy
+                test_x, test_y = mnist.test.images, mnist.test.labels
+                accurace_test = sess.run(
+                    accuracy,
+                    feed_dict={x: test_x, y_: test_y})
+                print("%s test_accuracy: %s" % (i, accurace_test))
 
 
 def main(argv=None):
