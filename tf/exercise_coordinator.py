@@ -37,6 +37,7 @@ class Threads(threading.Thread):
         while not coord.should_stop():
             if np.random.rand() < 0.1:
                 print("stop %s" % self.worker_id)
+                # request other threads to stop
                 coord.request_stop()
             else:
                 print("working %s" % self.worker_id)
