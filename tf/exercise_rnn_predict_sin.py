@@ -32,6 +32,7 @@ def generate_data(seq):
     # todo: generator?
     return np.array(x, dtype=np.float32), np.array(y, dtype=np.float32)
 
+
 # generate training data and test data
 # test_start = (TRAINING_EXAMPLES + TIME_STEPS) * SAMPLE_GAP
 # test_end = test_start + (TEST_EXAMPLES + TIME_STEPS) * SAMPLE_GAP
@@ -56,7 +57,7 @@ test_x, test_y = generate_data(test_sequence)
 # plt.show()
 
 
-def get_a_cell(lstm_size, keep_prob):
+def get_a_cell(lstm_size, keep_prob=1):
     lstm = tf.nn.rnn_cell.BasicLSTMCell(lstm_size)
     drop = tf.nn.rnn_cell.DropoutWrapper(lstm, output_keep_prob=keep_prob)
     return drop
@@ -89,6 +90,7 @@ def lstm_model(x, y_, is_training):
 
 
 def evaluation(sess, test_x, test_y):
+    # 作用是切分传入Tensor的第一个维度，生成相应的dataset，如果是一维则不切分
     ds = tf.data.Dataset.from_tensor_slices((test_x, test_y))
     ds = ds.batch(1)  # 一次拿一个数据
     # make_one_shot_iterator()实例化一个iterator，get_next()对这个iterator进行
