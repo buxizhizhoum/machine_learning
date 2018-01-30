@@ -80,7 +80,8 @@ def datetime_timestamp(dt):
 def generate_data(sequence, start=0):
     """
     produce data used to train model.
-    :param sequence:
+    :param sequence: the sequence to produce training data set
+    :param start: the start index
     :return:
     """
     x = []
