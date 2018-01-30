@@ -92,8 +92,8 @@ if __name__ == "__main__":
     # print(train_x)
     seq_x = [datetime.datetime.strptime(item, "%Y-%m-%d %H:%M:%S") for item in seq_x]
     seq_x = [datetime_timestamp(item) for item in seq_x]
-    seq_y = raw_data["pi"].tolist()
-
+    seq_y = raw_data["pi"].tolist()  # change series to list
+    # slice to get training and test data set
     train_seq_x, train_seq_y = seq_x[:TRAINING_SLICE], seq_y[:TRAINING_SLICE]
     test_seq_x, test_seq_y = seq_x[TRAINING_SLICE:], seq_y[TRAINING_SLICE:]
     print(len(test_seq_y))
