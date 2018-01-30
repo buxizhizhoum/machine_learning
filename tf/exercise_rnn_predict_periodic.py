@@ -17,6 +17,8 @@ TRAINING_EXAMPLES = 10000
 TEST_EXAMPLES = 1000  # 测试数据个数
 SAMPLE_GAP = 0.01
 
+TRAINING_SLICE = 1000
+
 FILE_NAME = "/home/buxizhizhoum/1-Work/Documents/2-Codes/learning/tf/training_data/training_data.csv"
 
 
@@ -50,7 +52,6 @@ def lstm_model(x, y_, is_training):
         return prediction, None, None
 
     loss = tf.losses.mean_squared_error(labels=y_, predictions=prediction)
-
     train_op = tf.contrib.layers.optimize_loss(
         loss,
         tf.train.get_global_step(),
@@ -69,7 +70,7 @@ def datetime_timestamp(dt):
     return timestamp
 
 
-def generate_data(sequence):
+def generate_data(sequence, start=0):
     """
     produce data used to train model.
     :param sequence:
@@ -77,7 +78,9 @@ def generate_data(sequence):
     """
     x = []
     y = []
-    for i in range(len(sequence) - TIME_STEPS):
+    start = start
+    end = start + (len(sequence) - TIME_STEPS)
+    for i in range(start, end):
         x.append([sequence[i: i + TIME_STEPS]])
         y.append([sequence[i]])
     return np.array(x, dtype=np.float32), np.array(y, dtype=np.float32)
@@ -89,20 +92,36 @@ if __name__ == "__main__":
     # print(train_x)
     seq_x = [datetime.datetime.strptime(item, "%Y-%m-%d %H:%M:%S") for item in seq_x]
     seq_x = [datetime_timestamp(item) for item in seq_x]
-    seq_y = raw_data["pi"]
+    seq_y = raw_data["pi"].tolist()
+
+    train_seq_x, train_seq_y = seq_x[:TRAINING_SLICE], seq_y[:TRAINING_SLICE]
+    test_seq_x, test_seq_y = seq_x[TRAINING_SLICE:], seq_y[TRAINING_SLICE:]
+    print(len(test_seq_y))
+    print(test_seq_y[1: 10])
 
     plt.figure("raw_data")
-    plt.plot(seq_x, seq_y)
-    # plt.show()
+    # plt.plot(seq_x, seq_y)
+    plt.plot(seq_y, label="raw_data")
+    plt.legend()
+    plt.show()
     # produce sequence
+    # train_x and train_y is not a point pair like (x, y) from two sequence,
+    # it is points pair line (y1, y2, y3...yn, y_) from one sequence
+    # which is time serialized.
+    # train_x, train_y = generate_data(train_seq_y)
     train_x, train_y = generate_data(seq_y)
-
     data_set = tf.data.Dataset.from_tensor_slices((train_x, train_y))
     data_set = data_set.repeat().shuffle(1000).batch(BATCH_SIZE)
     x, y_ = data_set.make_one_shot_iterator().get_next()
 
+    # test_x, and test_y is already the point from the same sequence
+    test_x, test_y = generate_data(test_seq_y)
+    test_data_set = tf.data.Dataset.from_tensor_slices((test_x, test_y))
+    data_set = test_data_set.batch(1)
+    test_x_point, test_y_point = data_set.make_one_shot_iterator().get_next()
+
     with tf.variable_scope("model"):
-        _, loss, train_op = lstm_model(x, y_, True)
+        _, loss, train_op = lstm_model(x, y_, is_training=True)
 
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
@@ -111,5 +130,27 @@ if __name__ == "__main__":
 
             if i % 100 == 0:
                 print("%s loss: %s" % (i, l))
+
+        # predict with trained model
+        with tf.variable_scope("model", reuse=True):
+            prediction, _, _ = lstm_model(
+                test_x_point, [0.0], is_training=False)
+
+            predictions = []
+            labels = []
+            # how to choose test_iter times. todo: think
+            for i in range(1600):
+                p, l = sess.run([prediction, test_y_point])
+                predictions.append(p)
+                labels.append(l)
+
+            predictions = np.array(predictions).squeeze()
+            labels = np.array(labels).squeeze()
+
+            plt.figure("test_pred_label")
+            plt.plot(predictions, label="predictions")
+            plt.plot(labels, label="labels")
+            plt.legend()
+            plt.show()
 
 
