@@ -3,7 +3,7 @@
 """
 data set is time serialized, with axis x as the time of the point, and axis y
 as the value of the point, but during the prediction, the time is not used,
-after the data is sequenced by time.
+after the data is sequenced by time. Does it is proper?
 
 The training data set is not like (x, y), but like ([y1, y2, y3 ... yn], y_)
 where y_ is the labels.
